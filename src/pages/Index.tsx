@@ -188,7 +188,7 @@ const generateInitialData = () =>
   }));
 
 const Index = () => {
-  const [chartData, setChartData] = useState(generateInitialData);
+  const [chartData] = useState(generateInitialData);
   const [chartData2] = useState(generateInitialData); 
   
   const [sensorValues] = useState({
@@ -201,11 +201,9 @@ const Index = () => {
   const [isOnline, setIsOnline] = useState(true);
 
   return (
-    <div className="flex flex-col min-h-screen bg-background p-2">
-      {/* Header / Nav Estilo Imagen */}
-      <nav className="flex flex-col gap-4 mb-4">
-        
-        {/* Fila Superior: Logo, Status y Settings */}
+    <div className="flex flex-col min-h-screen bg-background p-2 gap-4">
+      {/* 1. Navegación / Header */}
+      <nav className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-4">
           <div className="bg-[#f8d7da] border border-[#dc3545] rounded px-8 py-3 min-w-[200px] text-center">
             <span className="text-black font-medium">CubySpace - AQP</span>
@@ -224,7 +222,6 @@ const Index = () => {
           </button>
         </div>
 
-        {/* Fila de Fases */}
         <div className="grid grid-cols-5 gap-2">
           {["Fase 1", "Fase 2 / liberado", "Fase 3 / Desacoplado", "Fase 4", "Fase 5"].map((fase) => (
             <div key={fase} className="bg-[#f8d7da] border border-[#dc3545] rounded py-2 text-center text-sm text-black">
@@ -234,15 +231,14 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* Main Content - ESTRUCTURA DE 5 COLUMNAS PARA ESTABILIDAD */}
-      <main className="flex-1 grid grid-cols-1 lg:grid-cols-5 gap-4 items-center">
-        
-        {/* Gráfico 1 (Izquierda) - Ocupa 2 de 5 columnas */}
-        <div className="lg:col-span-2 w-full h-full min-h-[300px]">
+      {/* 2. Área Central: Gráficos e Indicadores */}
+      <main className="grid grid-cols-1 lg:grid-cols-5 gap-4 items-center">
+        {/* Gráfico 1 - Altura fija para forzar renderizado */}
+        <div className="lg:col-span-2 w-full h-[400px]">
           <SensorChart data={chartData} title="Datos del Sensor en Tiempo Real (Ejemplo 1)" />
         </div>
 
-        {/* Indicadores (Centro) - Ocupa 1 de 5 columnas */}
+        {/* Indicadores en el centro */}
         <div className="lg:col-span-1 flex flex-col gap-3">
           {indicatorConfig.map((cfg) => (
             <DataIndicator
@@ -254,14 +250,31 @@ const Index = () => {
           ))}
         </div>
 
-        {/* Gráfico 2 (Derecha) - Ocupa 2 de 5 columnas */}
-        <div className="lg:col-span-2 w-full h-full min-h-[300px]">
+        {/* Gráfico 2 - Altura fija para forzar renderizado */}
+        <div className="lg:col-span-2 w-full h-[400px]">
           <SensorChart data={chartData2} title="Datos del Sensor en Tiempo Real (Ejemplo 2)" />
         </div>
-
       </main>
-      
+
+      {/* 3. Botones de Sensores (Footer) */}
       <SensorFooter />
+
+      {/* 4. Botón de Predicciones - AHORA AL FINAL DE TODO */}
+      <section className="w-full">
+        <div className="border-2 border-black rounded-sm overflow-hidden bg-white shadow-sm">
+          <div className="border-b-2 border-black py-1 text-center bg-white">
+            <span className="text-xs font-bold text-black uppercase tracking-wider">
+              Predicciones - Machine Learning or Deep Learning - In real time
+            </span>
+          </div>
+          <div className="p-1">
+            <button className="w-full bg-[#726189] hover:bg-[#5f5172] text-white py-4 px-4 rounded-sm transition-colors font-medium">
+              Registrar los datos del paracaídas, en un margen 60 a 80 metros
+            </button>
+          </div>
+        </div>
+      </section>
+      
     </div>
   );
 };
